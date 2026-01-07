@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send Your Wish 💌</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Neue', cursive;
+    background: linear-gradient(135deg, #ffd1dc, #ffe4e1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .container {
+    background: #fff0f5;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  h1 {
+    color: #ff69b4;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px #fff;
+  }
+
+  input[type="text"] {
+    width: 80%;
+    padding: 12px 15px;
+    border-radius: 25px;
+    border: 2px solid #ffb6c1;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  input[type="text"]:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 10px #ffb6c1;
+  }
+
+  button {
+    background: #ff69b4;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255,105,180,0.4);
+  }
+
+  button:hover {
+    background: #ff1493;
+    transform: scale(1.05);
+  }
+
+  .hearts {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff69b4;
+    transform: rotate(45deg);
+    animation: floatUp linear infinite;
+    border-radius: 5px;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff69b4;
+    border-radius: 50%;
+  }
+
+  .heart::before {
+    top: -10px;
+    left: 0;
+  }
+
+  .heart::after {
+    top: 0;
+    left: -10px;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+    100% { transform: translateY(-200px) rotate(45deg); opacity: 0; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>💌 Send Your Wish!</h1>
+  <input type="text" id="wishInput" placeholder="Type your wish here...">
+  <br>
+  <button onclick="sendWish()">Send to WhatsApp 💖</button>
+  <div class="hearts" id="heartsContainer"></div>
+</div>
+
+<script>
+  // WhatsApp number (replace with your number)
+  const whatsappNumber = "60108629427";
+
+  function sendWish() {
+    const wish = document.getElementById("wishInput").value.trim();
+    if(wish === "") {
+      alert("Please type your wish first! 💌");
+      return;
+    }
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(wish)}`;
+    window.open(url, "_blank");
+  }
+
+  // Floating hearts effect
+  const heartsContainer = document.getElementById("heartsContainer");
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+    heart.style.width = 10 + Math.random() * 20 + "px";
+    heart.style.height = heart.style.width;
+    heartsContainer.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
+
+  setInterval(createHeart, 500);
+</script>
+
+</body>
+</html>
