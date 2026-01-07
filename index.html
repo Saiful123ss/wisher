@@ -118,7 +118,6 @@
     0% { transform: translateY(0) rotate(45deg); opacity: 1; }
     100% { transform: translateY(-200px) rotate(45deg); opacity: 0; }
   }
-
 </style>
 </head>
 <body>
@@ -127,13 +126,16 @@
   <h1>💌 Send Your Wish!</h1>
   <input type="text" id="wishInput" placeholder="Type your wish here...">
   <br>
-  <button onclick="sendWish()">Send to Gmail 💖</button>
+  <button onclick="sendWish()">Send to Me 💖</button>
   <div class="hearts" id="heartsContainer"></div>
 </div>
 
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-  // Your email address
-  const emailAddress = "saifulammarzarifb@gmail.com";
+  (function(){
+    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+  })();
 
   function sendWish() {
     const wish = document.getElementById("wishInput").value.trim();
@@ -141,10 +143,17 @@
       alert("Please type your wish first! 💌");
       return;
     }
-    const subject = encodeURIComponent("A Sweet Wish for You 💖");
-    const body = encodeURIComponent(wish);
-    const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}&su=${subject}&body=${body}`;
-    window.open(url, "_blank");
+
+    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
+      message: wish
+    })
+    .then(function(response){
+      alert("Your wish has been sent! 🎉💖");
+      document.getElementById("wishInput").value = "";
+    }, function(error){
+      alert("Oops! Something went wrong. 😢");
+      console.log(error);
+    });
   }
 
   // Floating hearts effect
